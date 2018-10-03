@@ -1,0 +1,19 @@
+.Monster {
+    border-radius: 7px;
+    box-sizing: border-box;
+    margin: 10px;
+    text-align: center;
+    width: 48%;
+
+    .monsterHeader {
+        background-color: #808B96;
+        font-size: 20pt;
+        height: 50px;
+        width: 100%;
+    }
+
+    .monsterHeader:hover {
+        background-color: rgb(57, 62, 66);
+    }
+
+}

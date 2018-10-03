@@ -1,0 +1,89 @@
+require('dotenv').config();
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const port = process.env.SERVER_PORT || 3007;
+const passport = require('passport');
+const Auth0strategy = require('passport-auth0');
+const massive = require('massive');
+const controller = require('./controller');
+const app = express();
+
+massive(process.env.CONNECTION_STRING).then(dbInstance => app.set('db', dbInstance));
+
+
+const {
+    SESSION_SECRET,
+    DOMAIN,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    CALLBACK_URL,
+} = process.env;
+
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(bodyParser.json());
+app.use(express.static(`${__dirname}/../build`));
+
+passport.use(new Auth0strategy({
+    domain: DOMAIN,
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    callbackURL: CALLBACK_URL,
+    scope: 'openid email profile'
+}, function( accessToken, refreshToken, extraParams, profile, done ) {
+    const db = app.get('db')
+    db.find_user(profile.id).then( user => {
+        if( user[0] ) {
+            console.log( 'old user!' )
+            return done( null, user[0] )
+        }
+        else {
+            console.log( 'new user!' )
+            db.create_user([profile.id, profile.nickname])
+                .then( user => {
+                    return done( null, user )
+                }).catch((error) => {console.log('couldnt create user', error)})
+        }
+    }).catch((error) => console.log('user error:', error))
+}));
+
+passport.serializeUser((profile, done) => {
+    done(null, profile);
+});
+
+passport.deserializeUser((profile, done) => {
+    done(null, profile);
+});
+
+app.get('/login', passport.authenticate('auth0', {
+    successRedirect: process.env.SUCCESS_REDIRECT,
+    failureRedirect: process.env.FAILURE_REDIRECT,
+}))
+
+app.get('/auth/me', function (req, res) {
+    if (req.session.passport) {
+        return res.status(200).send(req.session.passport.user)
+    }
+    return res.status(500).send('No user found')
+})
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect(process.env.FAILURE_REDIRECT);
+})
+
+
+// ======= FAVORITES =======
+
+app.get('/favorites', controller.getFavorites);
+app.post('/favorites', controller.addToFavorites);
+app.delete('/favorites', controller.remFromFavorites);
+
+app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -1,0 +1,22 @@
+.Spell {
+    border-radius: 7px;
+    box-sizing: border-box;
+    margin: 10px;
+    text-align: center;
+    width: 48%;
+
+    .spellHeader {
+        align-items: center;
+        background-color: #808B96;
+        display: flex;
+        flex-direction: row;
+        font-size: 20pt;
+        height: 50px;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .spellHeader:hover {
+        background-color: rgb(57, 62, 66);
+    }
+}

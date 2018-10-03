@@ -1,0 +1,83 @@
+.NavBar {
+    align-items: center;
+    background-color: #C0392B;  
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: flex-start;
+    width: 85px;
+
+    .navRoute {
+        height: 70px;
+        width: 100%;
+
+        a {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            font-size: 10pt;
+            height: 100%;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+
+            .linkContent {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+
+        .navExtend {
+            align-items: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            font-size: 10pt;
+            height: 100%;
+            justify-content: center;
+            width: 100%;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+.extend {
+    background-color: white;
+    box-shadow: 10px 10px 15px lightgray;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    left: 85px;
+    padding: 10px;
+    position: absolute;
+    top: 0px;
+    width: 220px;
+    z-index: 9;
+
+    .app {
+        align-items: center;
+        background-color: #D5D8DC;
+        border-radius: 2px;
+        color: black;
+        display: flex;
+        font-size: 10pt;
+        height: 35px;
+        justify-content: center;
+        margin: 5px;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+    }
+
+    .app:hover {
+        background-color: #808B96;
+    }
+}

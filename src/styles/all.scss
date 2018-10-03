@@ -1,0 +1,25 @@
+@import 'mixins';
+@import 'variables';
+
+// COMPONENTS
+
+@import 'components/apps/Apps';
+@import 'components/apps/monsterManual/MonsterManual';
+@import 'components/apps/monsterManual/Monster';
+@import 'components/apps/spellBook/SpellBook';
+@import 'components/apps/spellBook/Spell';
+@import 'components/apps/itemList/ItemList';
+@import 'components/apps/itemList/Item';
+@import 'components/Dashboard';
+@import 'components/EventCalendar';
+@import 'components/modals/MonsterModal';
+@import 'components/modals/SpellModal';
+@import 'components/modals/ItemModal';
+@import 'components/NavBar';
+
+.App {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}
